@@ -1,7 +1,11 @@
 2023-08-15　の練習分
+---
+---
 
-/book/create
-/book/list
-/book/{id}
+アドレス | プロトコル | 説明
+--- | :---: | ---
+/book/create | POST | 本を追加
+/book/list | GET | 本の全リストを取得
+/book/{id} | GET | 本のidからほんの詳細を取得
 
 の3種類のAPIを作っている
