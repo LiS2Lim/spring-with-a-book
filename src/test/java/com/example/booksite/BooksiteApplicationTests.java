@@ -1,10 +1,10 @@
-package com.li521lim.spring;
+package com.example.booksite;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringWithABookApplicationTests {
+class BooksiteApplicationTests {
 
 	@Test
 	void contextLoads() {
