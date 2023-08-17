@@ -2,12 +2,10 @@ package com.example.bookstore.book;
 
 import java.time.LocalDate;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 
-@Data
-@Builder
+@Getter
 public class BookCreateDTO {
     @NonNull
     private String title;
@@ -15,4 +13,15 @@ public class BookCreateDTO {
     private int price;
     private String url;
     private LocalDate publishedDate;
+
+    public Book toBook() {
+        Book book = Book.builder()
+                        .title(this.title)
+                        .content(this.content)
+                        .price(this.price)
+                        .url(this.url)
+                        .publishedDate(this.publishedDate)
+                        .build();
+        return book;
+    }
 }

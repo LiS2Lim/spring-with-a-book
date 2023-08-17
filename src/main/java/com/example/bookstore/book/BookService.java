@@ -4,18 +4,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class BookService {
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     public Book createBook(BookCreateDTO bookCreateDTO) {
-        Book book = Book.builder()
-                    .title(bookCreateDTO.getTitle())
-                    .content(bookCreateDTO.getContent())
-                    .price(bookCreateDTO.getPrice())
-                    .url(bookCreateDTO.getUrl())
-                    .publishedDate(bookCreateDTO.getPublishedDate())
-                    .build();
+        Book book = bookCreateDTO.toBook();
         bookRepository.save(book);
         return book;
     }
@@ -26,16 +23,13 @@ public class BookService {
     }
 
     public Book readBook(int id) {
-        Book book = bookRepository.findById(id).get();
+        Book book = bookRepository.findById(id).orElseThrow();
         return book;
     }
 
-    public boolean deleteBook(int id) {
-        try {
-            bookRepository.deleteById(id);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public Book deleteBook(int id) {
+        Book book = readBook(id);
+        bookRepository.delete(book);
+        return book;
     }
 }

@@ -2,6 +2,7 @@ package com.example.bookstore.book;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.AllArgsConstructor;
+
 @RestController
+@AllArgsConstructor
 @RequestMapping("/book")
 public class BookController {
-    private BookService bookService;
+    private final BookService bookService;
 
     @PostMapping("/create")
     public int createBook(@RequestBody BookCreateDTO bookCreateDTO) {
@@ -30,14 +34,22 @@ public class BookController {
 
     @GetMapping("/{id}")
     public Book readBook(@PathVariable int id) {
-        Book book = bookService.readBook(id);
-        return book;
+        try {
+            Book book = bookService.readBook(id);
+            return book;
+        } catch (NoSuchElementException e) {
+            return null;
+        }
     }
 
     @DeleteMapping("/delete")
-    public boolean deleteBook(@RequestBody Map<String, String> map) {
-        int id = Integer.parseInt(map.get("id"));
-        return bookService.deleteBook(id);
+    public Book deleteBook(@RequestBody Map<String, String> map) {
+        try {
+            int id = Integer.parseInt(map.get("id"));
+            return bookService.deleteBook(id);
+        } catch (NoSuchElementException e) {
+            return null;
+        }
     }
     
 }
